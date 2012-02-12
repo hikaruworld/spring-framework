@@ -30,9 +30,6 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.OperationNotSupportedException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.util.StringUtils;
 
 /**
@@ -51,8 +48,6 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.jndi.JndiTemplate#createInitialContext
  */
 public class SimpleNamingContext implements Context {
-
-	private final Log logger = LogFactory.getLog(getClass());
 
 	private final String root;
 
@@ -92,16 +87,10 @@ public class SimpleNamingContext implements Context {
 	// Actual implementations of Context methods follow
 
 	public NamingEnumeration<NameClassPair> list(String root) throws NamingException {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Listing name/class pairs under [" + root + "]");
-		}
 		return new NameClassPairEnumeration(this, root);
 	}
 
 	public NamingEnumeration<Binding> listBindings(String root) throws NamingException {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Listing bindings under [" + root + "]");
-		}
 		return new BindingEnumeration(this, root);
 	}
 
@@ -113,9 +102,6 @@ public class SimpleNamingContext implements Context {
 	 */
 	public Object lookup(String lookupName) throws NameNotFoundException {
 		String name = this.root + lookupName;
-		if (logger.isDebugEnabled()) {
-			logger.debug("Static JNDI lookup: [" + name + "]");
-		}
 		if ("".equals(name)) {
 			return new SimpleNamingContext(this.root, this.boundObjects, this.environment);
 		}
@@ -148,16 +134,10 @@ public class SimpleNamingContext implements Context {
 	 * @see org.springframework.mock.jndi.SimpleNamingContextBuilder#bind
 	 */
 	public void bind(String name, Object obj) {
-		if (logger.isInfoEnabled()) {
-			logger.info("Static JNDI binding: [" + this.root + name + "] = [" + obj + "]");
-		}
 		this.boundObjects.put(this.root + name, obj);
 	}
 
 	public void unbind(String name) {
-		if (logger.isInfoEnabled()) {
-			logger.info("Static JNDI remove: [" + this.root + name + "]");
-		}
 		this.boundObjects.remove(this.root + name);
 	}
 

@@ -35,9 +35,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -88,9 +85,6 @@ import org.springframework.web.util.WebUtils;
 public class MockServletContext implements ServletContext {
 
 	private static final String TEMP_DIR_SYSTEM_PROPERTY = "java.io.tmpdir";
-
-
-	private final Log logger = LogFactory.getLog(getClass());
 
 	private final ResourceLoader resourceLoader;
 
@@ -251,7 +245,6 @@ public class MockServletContext implements ServletContext {
 			return resourcePaths;
 		}
 		catch (IOException ex) {
-			logger.warn("Couldn't get resource paths for " + resource, ex);
 			return null;
 		}
 	}
@@ -268,7 +261,6 @@ public class MockServletContext implements ServletContext {
 			throw ex;
 		}
 		catch (IOException ex) {
-			logger.warn("Couldn't get URL for " + resource, ex);
 			return null;
 		}
 	}
@@ -282,7 +274,6 @@ public class MockServletContext implements ServletContext {
 			return resource.getInputStream();
 		}
 		catch (IOException ex) {
-			logger.warn("Couldn't open InputStream for " + resource, ex);
 			return null;
 		}
 	}
@@ -311,15 +302,12 @@ public class MockServletContext implements ServletContext {
 	}
 
 	public void log(String message) {
-		logger.info(message);
 	}
 
 	public void log(Exception ex, String message) {
-		logger.info(message, ex);
 	}
 
 	public void log(String message, Throwable ex) {
-		logger.info(message, ex);
 	}
 
 	public String getRealPath(String path) {
@@ -328,7 +316,6 @@ public class MockServletContext implements ServletContext {
 			return resource.getFile().getAbsolutePath();
 		}
 		catch (IOException ex) {
-			logger.warn("Couldn't determine real path of resource " + resource, ex);
 			return null;
 		}
 	}

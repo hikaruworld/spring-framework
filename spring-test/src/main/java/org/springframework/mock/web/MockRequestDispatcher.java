@@ -21,9 +21,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.util.Assert;
 
 /**
@@ -37,8 +34,6 @@ import org.springframework.util.Assert;
  * @since 1.0.2
  */
 public class MockRequestDispatcher implements RequestDispatcher {
-
-	private final Log logger = LogFactory.getLog(getClass());
 
 	private final String url;
 
@@ -60,18 +55,12 @@ public class MockRequestDispatcher implements RequestDispatcher {
 			throw new IllegalStateException("Cannot perform forward - response is already committed");
 		}
 		getMockHttpServletResponse(response).setForwardedUrl(this.url);
-		if (logger.isDebugEnabled()) {
-			logger.debug("MockRequestDispatcher: forwarding to URL [" + this.url + "]");
-		}
 	}
 
 	public void include(ServletRequest request, ServletResponse response) {
 		Assert.notNull(request, "Request must not be null");
 		Assert.notNull(response, "Response must not be null");
 		getMockHttpServletResponse(response).addIncludedUrl(this.url);
-		if (logger.isDebugEnabled()) {
-			logger.debug("MockRequestDispatcher: including URL [" + this.url + "]");
-		}
 	}
 
 	/**
